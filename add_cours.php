@@ -25,7 +25,6 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
   <main class="flex-1 p-6 overflow-y-auto">
 
     <div class="mb-6">
@@ -51,7 +50,7 @@
             placeholder="Décrivez votre cours ici..."></textarea>
         </div>
 
-        <!-- Level -->
+
         <div class="flex flex-col gap-2">
           <label class="text-gray-300">Niveau</label>
           <select name="level" required
