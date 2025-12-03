@@ -74,7 +74,6 @@
             alt="Prévisualisation" />
         </div>
 
-        <!-- Submit -->
         <button type="submit"
           class="w-full py-3 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-semibold transition shadow-lg">
           Ajouter le cours
@@ -85,7 +84,6 @@
     </div>
   </main>
 
-  <!-- JavaScript for preview -->
   <script>
     const input = document.getElementById('imageInput');
     const preview = document.getElementById('imagePreview');
