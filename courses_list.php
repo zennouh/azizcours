@@ -48,24 +48,54 @@ $courses = getCourses();
 </head>
 
 <body class="h-screen bg-gray-900 flex text-gray-100">
+    <aside class="w-64 h-screen bg-gray-850 bg-gray-800 border-r border-gray-700 flex flex-col p-6 shadow-xl">
 
-
-    <aside class="w-64 bg-gray-800 flex flex-col p-4">
-
-        <header class="flex items-center mb-4">
-            <div class="icon w-8 h-8 bg-white rounded-full mr-2"></div>
-            <div class="text-xl font-bold">EduManager</div>
+        <!-- Logo -->
+        <header class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center font-bold text-white">
+                EM
+            </div>
+            <h1 class="text-2xl font-bold tracking-wide">EduManager</h1>
         </header>
 
-        <hr class="border-gray-700 mb-4" />
+        <hr class="border-gray-700 mb-6" />
 
+        <!-- Navigation -->
+        <nav class="flex flex-col space-y-2 text-gray-300">
 
-        <nav class="flex flex-col space-y-2">
-            <a href="courses_list.php" class="px-2 py-1 rounded hover:bg-gray-700 transition">Cours</a>
-            <a href="add_cours.php" class="px-2 py-1 rounded hover:bg-gray-700 transition">ajouter</a>
-            <a href="#" class="px-2 py-1 rounded hover:bg-gray-700 transition">Sections</a>
+            <a href="courses_list.php"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17h11A2.5 2.5 0 0 1 20 19.5v0A2.5 2.5 0 0 1 17.5 22h-11A2.5 2.5 0 0 1 4 19.5z" />
+                    <path d="M6 17V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13" />
+                </svg>
+                Cours
+            </a>
+
+            <a href="add_cours.php"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+                Ajouter
+            </a>
+
+            <a href="#"
+                class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16v6H4z" />
+                    <path d="M4 14h16v6H4z" />
+                </svg>
+                Sections
+            </a>
+
         </nav>
+
     </aside>
+
 
 
     <main class="flex-1 p-6 overflow-y-auto">
@@ -113,8 +143,102 @@ $courses = getCourses();
 
 
     </main>
+    <!-- Edit Course Modal -->
+    <div id="editModal"
+        class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
+            <h2 class="text-2xl font-bold mb-4">Modifier le Cours</h2>
+
+            <form id="editForm" action="edit_cours.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+                <input type="hidden" name="cours_id" id="edit_id">
+
+                <div>
+                    <label class="block mb-1">Titre</label>
+                    <input type="text" name="title" id="edit_title"
+                        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+                </div>
+
+                <div>
+                    <label class="block mb-1">Description</label>
+                    <textarea name="description" id="edit_description"
+                        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded"></textarea>
+                </div>
+
+                <div>
+                    <label class="block mb-1">Niveau</label>
+                    <select name="level" id="edit_level"
+                        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Avancé">Avancé</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1">Imagee</label>
+                    <input type="file" id="imgInp" name="image" class="w-full">
+                    <img id="imgPr"
+                        src=""
+                        class="hidden mt-3 w-64 h-40 object-cover rounded-lg border border-gray-700 shadow"
+                        alt="Prévisualisation" />
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" id="closeModal"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
+                        Annuler
+                    </button>
+
+                    <button type="submit"
+                        class="px-4 py-2 bg-sky-600 hover:bg-sky-500 rounded">
+                        Sauvegarder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
-<script src="./src/script/index.js" defer></script>
+<script>
+    document.querySelectorAll(".edit").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const card = btn.closest(".card");
+
+            const cours = {
+                id: card.querySelector(".delete").dataset.id,
+                title: card.querySelector("h3").innerText,
+                description: card.querySelector("p").innerText,
+                level: card.querySelector("span").innerText,
+                image: card.querySelector("img").src,
+            };
+            const input = document.getElementById('imgInp');
+            const preview = document.getElementById('imgPr');
+            preview.classList.remove("hidden")
+            preview.src = cours.image;
+            console.log(preview.src);
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                if (!file) return;
+
+                const url = URL.createObjectURL(file);
+                preview.src = url;
+                preview.classList.remove('hidden');
+            });
+            document.getElementById("edit_id").value = cours.id;
+            document.getElementById("edit_title").value = cours.title;
+            document.getElementById("edit_description").value = cours.description;
+            document.getElementById("edit_level").value = cours.level;
+            document.getElementById("editModal").classList.remove("hidden");
+            document.getElementById("editModal").classList.add("flex");
+        });
+    });
+
+    document.getElementById("closeModal").onclick = () => {
+        document.getElementById("editModal").classList.add("hidden");
+        document.getElementById("editModal").classList.remove("flex");
+    };
+</script>
 
 </html>
 
@@ -142,7 +266,7 @@ function renderCourseCard($course)
             <div class="info flex justify-between">
                 <h3 class="text-lg font-bold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
                 <div class="ud">
-                    <a href="delete_cours.php?id=<?php echo $course['cours_id'] ?>" class="delete inline-block cursor-pointer text-red-700 group-hover:bg-red-700/20 transition p-2 rounded-sm">
+                    <a data-id="<?php echo $course['cours_id'] ?>" href="delete_cours.php?id=<?php echo $course['cours_id'] ?>" class="delete inline-block cursor-pointer text-red-700 group-hover:bg-red-700/20 transition p-2 rounded-sm">
                         <svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4" data-darkreader-inline-stroke="" style="--darkreader-inline-stroke: currentColor;">
                             <path d="M3 6h18"></path>
