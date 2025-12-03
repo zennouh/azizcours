@@ -338,7 +338,6 @@ $courses = getCourses();
             document.getElementById("sectionModal").classList.add("flex");
         });
     });
-
     document.getElementById("closeModal").onclick = () => {
         document.getElementById("editModal").classList.add("hidden");
         document.getElementById("editModal").classList.remove("flex");
