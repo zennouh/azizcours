@@ -10,7 +10,7 @@ if (isset($_GET["id"])) {
     $result = mysqli_query($conn, $q);
     if ($result) {
         mysqli_close($conn);
-        sleep(2);
+        sleep(1);
         header("Location: courses_list.php");
     }
 } else {
