@@ -257,7 +257,6 @@ $courses = getCourses();
             </form>
         </div>
     </div>
-
 </body>
 <script>
     document.querySelectorAll(".edit").forEach(btn => {
