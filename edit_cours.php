@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $title = $_POST["title"];
     $desc = $_POST["description"];
     $level = $_POST["level"];
-
     $conn = makeConnection();
 
 
