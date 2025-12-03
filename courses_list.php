@@ -105,7 +105,6 @@ $courses = getCourses();
             </a>
         </nav>
     </aside>
-
     <main class="flex-1 p-6 overflow-y-auto">
         <div class="mb-10">
             <h1 class="text-3xl font-bold mb-2">Gestion des Cours</h1>
