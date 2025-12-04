@@ -3,6 +3,25 @@
 include_once "connect.php";
 
 
+// function getSection($id)
+// {
+//     $conn = makeConnection();
+
+//     $sql = "SELECT * FROM sections WHERE cours_id= $id";
+//     $result = mysqli_query($conn, $sql);
+//     $sec = [];
+//     if ($result && mysqli_num_rows($result) > 0) {
+//         while ($row = mysqli_fetch_assoc($result)) {
+//             $sec[] = [
+//                 "sec_title" => $row["section_title"],
+//                 "sec_dsc" => $row["section_content"],
+//                 "sec_position" => $row["position"]
+//             ];
+//         }
+//     }
+//     return $sec;
+// }
+
 function getCourses()
 {
     $conn = makeConnection();
@@ -26,12 +45,15 @@ EOD;
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
 
+            // $sec = getSection($row['cours_id']);
+
             $courses[] = [
                 'cours_id' => $row['cours_id'],
                 'title' => $row['title'],
                 'description' => $row['description'],
                 'level' => $row['levele'],
                 'position' => $row['max_position'],
+                // "sections" => $sec,
                 'image' => "http://localhost/azizcours/src/upload/" . $row['image']
             ];
         }
@@ -42,9 +64,9 @@ EOD;
     return $courses;
 }
 
-// Fetch courses dynamically
 
 $courses = getCourses();
+// print_r(json_encode($courses));
 ?>
 
 
@@ -210,6 +232,8 @@ $courses = getCourses();
                         alt="Prévisualisation" />
                 </div>
 
+
+
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" id="closeModalDetail"
                         class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
@@ -290,32 +314,10 @@ $courses = getCourses();
             document.getElementById("editModal").classList.add("flex");
         });
     });
-    document.querySelectorAll(".details").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const card = btn.closest(".card");
-
-            const cours = {
-                id: card.querySelector(".delete").dataset.id,
-                title: card.querySelector("h3").innerText,
-                description: card.querySelector("p").innerText,
-                level: card.querySelector("span").innerText,
-                image: card.querySelector("img").src,
-            };
-            const input = document.getElementById('imgInpdet');
-            const preview = document.getElementById('imgPrdet');
-            preview.classList.remove("hidden")
-            preview.src = cours.image;
-
-            document.getElementById("details_id").value = cours.id;
-            document.getElementById("details_title").value = cours.title;
-            document.getElementById("details_description").value = cours.description;
-            document.getElementById("details_level").value = cours.level;
-            document.getElementById("detailsModal").classList.remove("hidden");
-            document.getElementById("detailsModal").classList.add("flex");
-        });
-    });
     document.querySelectorAll(".sections").forEach(btn => {
         btn.addEventListener("click", () => {
+            console.log("azeer");
+
             const card = btn.closest(".card");
 
             const sec = {
@@ -365,8 +367,10 @@ function renderCourseCard($course)
     $levelClass = $levelColors[$course['level']] ?? 'bg-gray-500 text-white';
 ?>
     <div class="card group bg-gray-800 text-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col h-full border border-gray-700">
+        <!-- <input type="hidden" name="sec_position" id="sec_position">
+        <input type="hidden" name="sec_title" id="sec_title">
+        <input type="hidden" name="sec_description" id="sec_description"> -->
 
-        <!-- Image -->
         <div class="relative h-48 overflow-hidden">
             <img src="<?= $course['image'] ?>"
                 alt="<?= htmlspecialchars($course['title']) ?>"
@@ -392,7 +396,8 @@ function renderCourseCard($course)
 
 
                     <a data-id="<?= $course['cours_id'] ?>"
-                        href="#"
+                        href="page_detail.php?id=<?= $course['cours_id'] ?>&position=<?= $course['position'] ?>"
+
                         class="details p-2 rounded-lg bg-green-700/30 text-green-700  transition">
                         Details
                     </a>
