@@ -66,3 +66,64 @@ function delete_cours($id): bool
         return false;
     }
 }
+
+function get_cours_detail($id)
+{
+    $conn = make_connection();
+    $id = intval($id);
+
+    // We get the max position of sections directly here
+    $sql = "SELECT c.cours_id, c.title, c.description, c.levele, c.image,
+                   COALESCE(MAX(s.position),0) AS max_position
+            FROM cours c
+            LEFT JOIN sections s ON c.cours_id = s.cours_id
+            WHERE c.cours_id = $id
+            GROUP BY c.cours_id, c.title, c.description, c.levele, c.image";
+
+    $result = mysqli_query($conn, $sql);
+
+    $courses = [];
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+
+        $courses[] = [
+            'cours_id'   => $row['cours_id'],
+            'title'      => $row['title'],
+            'description' => $row['description'],
+            'level'      => $row['levele'],
+            'max_position' => $row['max_position'],
+            'image'      => "http://localhost/azizcours/src/upload/" . $row['image']
+        ];
+    }
+
+    mysqli_close($conn);
+    return $courses;
+}
+function get_section($id)
+{
+    $conn = make_connection();
+    $id = intval($id);
+
+    $sql = "SELECT section_title, section_content, section_id,position 
+            FROM sections 
+            WHERE cours_id = $id
+            ORDER BY position ASC";
+
+    $result = mysqli_query($conn, $sql);
+    $sections = [];
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sections[] = [
+                "sec_title"    => $row["section_title"],
+                "sec_dsc"      => $row["section_content"],
+                "sec_position" => $row["position"],
+                "sec_id" => $row["section_id"],
+            ];
+        }
+    }
+
+    mysqli_close($conn);
+    return $sections;
+}

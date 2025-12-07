@@ -265,18 +265,18 @@ function renderCourseCard($course)
 
 
                     <a data-id="<?= $course['cours_id'] ?>"
-                        href="page_detail.php?id=<?= $course['cours_id'] ?>&position=<?= $course['position'] ?>"
+                        href="details.php?id=<?= $course['cours_id'] ?>&position=<?= $course['position'] ?>"
 
                         class="details p-2 rounded-lg bg-green-700/30 text-green-700  transition">
                         Details
                     </a>
-                    <a
+                    <!-- <a
                         data-id="<?= $course['cours_id'] ?>"
                         data-position="<?= $course['position'] ?>"
                         href="#"
                         class="sections p-2 rounded-lg bg-orange-700/30 text-orange-700  transition">
                         Sections
-                    </a>
+                    </a> -->
                     <a data-id="<?= $course['cours_id'] ?>"
                         href="deletecours.php?id=<?= $course['cours_id'] ?>"
                         class="delete p-2 rounded-lg bg-white/20 text-red-700 hover:bg-red-700/20 transition">
