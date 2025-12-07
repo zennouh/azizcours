@@ -1,5 +1,3 @@
-
-
 <?php
 ob_start();
 ?>
@@ -16,6 +14,149 @@ ob_start();
         <?php endforeach; ?>
     </div>
 </main>
+
+
+<div id="editModal"
+    class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+    <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-4">Modifier le Cours</h2>
+
+        <form id="editForm" action="edit_cours.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+            <input type="hidden" name="cours_id" id="edit_id">
+
+            <div>
+                <label class="block mb-1">Titre</label>
+                <input type="text" name="title" id="edit_title"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+            </div>
+
+            <div>
+                <label class="block mb-1">Description</label>
+                <textarea name="description" id="edit_description"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded"></textarea>
+            </div>
+
+            <div>
+                <label class="block mb-1">Niveau</label>
+                <select name="level" id="edit_level"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+                    <option value="Débutant">Débutant</option>
+                    <option value="Intermédiaire">Intermédiaire</option>
+                    <option value="Avancé">Avancé</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1">Imagee</label>
+                <input type="file" id="imgInp" name="image" class="w-full">
+                <img id="imgPr"
+                    src=""
+                    class="hidden mt-3 w-64 h-40 object-cover rounded-lg border border-gray-700 shadow"
+                    alt="Prévisualisation" />
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" id="closeModal"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
+                    Annuler
+                </button>
+
+                <button type="submit"
+                    class="px-4 py-2 bg-sky-600 hover:bg-sky-500 rounded">
+                    Sauvegarder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="detailsModal"
+    class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+    <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-4">Modifier le Cours</h2>
+
+        <form id="editForm" class="space-y-4">
+
+            <input type="hidden" name="cours_id" id="details_id">
+            <input type="hidden" name="position" id="position">
+
+            <div>
+                <label class="block mb-1">Titre</label>
+                <input type="text" name="title" id="details_title" disabled
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+            </div>
+
+            <div>
+                <label class="block mb-1">Description</label>
+                <textarea name="description" id="details_description" disabled
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded"></textarea>
+            </div>
+
+            <div>
+                <label class="block mb-1">Niveau</label>
+                <input type="text" name="option" id="details_level" disabled
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+            </div>
+
+            <div>
+                <label class="block mb-1">Image</label>
+
+                <img id="imgPrdet"
+                    src=""
+                    class="hidden mt-3 w-64 h-40 object-cover rounded-lg border border-gray-700 shadow"
+                    alt="Prévisualisation" />
+            </div>
+
+
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" id="closeModalDetail"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
+                    Annuler
+                </button>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="sectionModal"
+    class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+    <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-4">Ajouter les section</h2>
+
+        <form id="editForm" class="space-y-4" action="add_section.php" method="POST">
+            <input type="hidden" name="cours_id" id="cours_id">
+            <input type="hidden" name="sections_position" id="sections_position">
+
+            <div>
+                <label class="block mb-1">Section Titre</label>
+                <input type="text" name="sections_title" id="sections_title"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded">
+            </div>
+
+            <div>
+                <label class="block mb-1">Description</label>
+                <textarea name="sections_content" id="sections_description"
+                    class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button type="button" id="closeModalSection"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
+                    Annuler
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 bg-sky-600 hover:bg-sky-500 rounded">
+                    Sauvegarder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     document.querySelectorAll(".edit").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -137,7 +278,7 @@ function renderCourseCard($course)
                         Sections
                     </a>
                     <a data-id="<?= $course['cours_id'] ?>"
-                        href="delete_cours.php?id=<?= $course['cours_id'] ?>"
+                        href="deletecours.php?id=<?= $course['cours_id'] ?>"
                         class="delete p-2 rounded-lg bg-white/20 text-red-700 hover:bg-red-700/20 transition">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="20" height="20"

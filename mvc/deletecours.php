@@ -2,4 +2,6 @@
 
 require_once "controller/cours.php";
 
-index();
+$id = $_GET["id"];
+
+delete($id);

@@ -52,3 +52,17 @@ EOD;
     return $courses;
 }
 
+function delete_cours($id): bool
+{
+
+    $conn = make_connection();
+    $q = 'DELETE FROM cours WHERE cours_id =' . $id;
+    $result = mysqli_query($conn, $q);
+    if ($result) {
+        mysqli_close($conn);
+        sleep(1);
+        return true;
+    } else {
+        return false;
+    }
+}
