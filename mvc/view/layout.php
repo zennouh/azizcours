@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="view/style/output.css">
-    <title> <?= $title  ?>?> </title>
+    <title><?= $title  ?></title>
 </head>
 
 <body class="h-screen bg-gray-900 flex text-gray-100">

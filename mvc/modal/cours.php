@@ -20,18 +20,7 @@ function get_courses_list()
 {
     $conn = make_connection();
 
-    $sql = <<<EOD
-    SELECT COALESCE(MAX(s.position), 0)  max_position, 
-       c.cours_id,
-       c.title, 
-       c.levele, 
-       c.image, 
-       c.description
-FROM cours c
-LEFT JOIN sections s
-ON c.cours_id = s.cours_id
-GROUP BY c.cours_id, c.title, c.levele, c.image, c.description
-EOD;
+    $sql = "SELECT * FROM cours ";
     $result = mysqli_query($conn, $sql);
 
     $courses = [];
@@ -41,9 +30,7 @@ EOD;
             $courses[] = [
                 'cours_id' => $row['cours_id'],
                 'title' => $row['title'],
-                'description' => $row['description'],
                 'level' => $row['levele'],
-                'position' => $row['max_position'],
                 'image' => "http://localhost/azizcours/src/upload/" . $row['image']
             ];
         }
@@ -157,5 +144,37 @@ function add_cours()
     } catch (\Throwable $th) {
         echo $th->getMessage();
         return false;
+    }
+}
+
+function update_cours()
+{
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $id = $_POST["cours_id"];
+        $title = $_POST["title"];
+        $desc = $_POST["description"];
+        $level = $_POST["level"];
+        $conn = make_connection();
+
+        echo $id;
+
+        // $sql = "";
+        if (!empty($_FILES["image"]["name"])) {
+            $imgName = time() . "_" . $_FILES["image"]["name"];
+            $path = "../src/upload/" . $imgName;
+            move_uploaded_file($_FILES["image"]["tmp_name"], $path);
+            $sql = "UPDATE `cours` SET `title`='$title', `description`='$desc', `levele`='$level', `image`='$imgName' WHERE `cours_id`=$id";
+        } else {
+            $sql = "UPDATE `cours` SET `title`='$title', `description`='$desc', `levele`='$level' WHERE `cours_id`=$id";
+        }
+
+        try {
+            $result =  mysqli_query($conn, $sql);
+            mysqli_close($conn);
+            return $result;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
 }

@@ -37,3 +37,18 @@ function add()
         header("location: index.php");
     }
 }
+
+
+function editAction($id)
+{
+    $c = get_cours_detail($id)[0];
+    require_once "view/edit.php";
+}
+
+function update()
+{
+    $result =  update_cours();
+    if ($result) {
+        header("location: index.php");
+    }
+}
