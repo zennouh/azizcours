@@ -24,3 +24,16 @@ function delete($id)
         header("location: index.php");
     }
 }
+
+function addAction()
+{
+    require_once "view/add.php";
+}
+
+function add()
+{
+    $res = add_cours();
+    if ($res) {
+        header("location: index.php");
+    }
+}

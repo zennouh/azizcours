@@ -127,3 +127,35 @@ function get_section($id)
     mysqli_close($conn);
     return $sections;
 }
+
+
+function add_cours()
+{
+    try {
+        $conn = make_connection();
+
+        $file = $_FILES["image"];
+        $title = $_POST["title"];
+        $desc  = $_POST["description"];
+        $level = $_POST["level"];
+        $imageName = time() . "_" . basename($file["name"]);
+
+        $query = "INSERT INTO `cours` (`title`, `levele`, `image`, `description`) VALUES ('$title', '$level', '$imageName', '$desc')";
+
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+
+            $targetDir = "../src/upload/";
+            $targetPath = $targetDir . $imageName;
+
+            $isMove = move_uploaded_file($file["tmp_name"], $targetPath);
+            mysqli_close($conn);
+            return true;
+        }
+        return false;
+    } catch (\Throwable $th) {
+        echo $th->getMessage();
+        return false;
+    }
+}
