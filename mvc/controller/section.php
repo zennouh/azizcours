@@ -17,3 +17,11 @@ function add($id, $position)
         header("location: index.php");
     }
 }
+
+function delete($id)
+{
+    $result = delete_section($id);
+    if ($result) {
+        header("location: index.php");
+    }
+}

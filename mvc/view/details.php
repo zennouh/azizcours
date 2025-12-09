@@ -3,7 +3,6 @@ ob_start();
 ?>
 
 <main class="flex-1 p-6 overflow-y-auto flex gap-4 justify-center">
-
     <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
 
         <h2 class="text-2xl font-bold mb-4">Détails du Cours</h2>
@@ -93,7 +92,7 @@ ob_start();
 
 
 
-                                <a href="delete_section.php?id=<?= $s['sec_id'] ?>"
+                                <a href="post_delete_section.php?id=<?= $s['sec_id'] ?>"
                                     data-secid="<?= $s['sec_id'] ?>"
                                     class="px-2 py-1 rounded bg-red-600 text-white text-sm hover:bg-red-500"
                                     onclick="return confirm('Supprimer cette section ?');">
@@ -118,9 +117,6 @@ ob_start();
         <?php endif; ?>
 
     </div>
-
-
-
 </main>
 
 <div id="addsectionModal"
