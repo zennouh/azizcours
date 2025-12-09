@@ -9,3 +9,11 @@ function update($id)
         header("location: index.php");
     }
 }
+
+function add($id, $position)
+{
+    $result = add_section($id, $position);
+    if ($result) {
+        header("location: index.php");
+    }
+}

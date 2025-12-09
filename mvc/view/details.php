@@ -11,10 +11,10 @@ ob_start();
         <?php if (!empty($cours)) :
             $c = $cours[0]; ?>
 
-            <form id="t" class="space-y-4">
+            <form id="t" class="space-y-4" action="" method="POST">
 
-                <input type="hidden" id="details_id" value="<?= $c['cours_id'] ?>">
-                <input type="hidden" id="position" value="<?= $c['max_position'] ?>">
+                <input type="hidden" name="cours_id" id="cours_id" value="<?= $c['cours_id'] ?>">
+                <input type="hidden" name="max_position" id="max_position" value="<?= $c['max_position'] ?>">
 
                 <div>
                     <label class="block mb-1">Titre</label>
@@ -56,12 +56,10 @@ ob_start();
             <h2 class="text-2xl font-bold">Sections du Cours</h2>
 
             <a href="#"
-                class="sections px-3 py-1 bg-sky-600 rounded-lg text-sm hover:bg-sky-500 transition">
+                class="addsections px-3 py-1 bg-sky-600 rounded-lg text-sm hover:bg-sky-500 transition">
                 ➕ Ajouter
             </a>
         </div>
-        <input type="hidden" value="<?= $id ?>" name="name_coursid" id="id_coursid">
-        <input type="hidden" value="<?= $position ?>" name="name_position" id="id_position">
         <?php if (!empty($sect)) : ?>
 
             <div class="space-y-3">
@@ -105,7 +103,6 @@ ob_start();
                             </div>
                         </div>
 
-                        <!-- Description -->
                         <p class="mt-3 text-gray-300 text-sm leading-relaxed">
                             <?= nl2br(htmlspecialchars($s['sec_dsc'])) ?>
                         </p>
@@ -126,14 +123,14 @@ ob_start();
 
 </main>
 
-<div id="sectionModalDetail"
+<div id="addsectionModal"
     class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
     <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
         <h2 class="text-2xl font-bold mb-4">Ajouter les section</h2>
 
-        <form id="ajoutForm" class="space-y-4" action="add_section.php" method="POST">
-            <input type="hidden" name="cours_id" id="cours_id">
-            <input type="hidden" name="sections_position" id="sections_position">
+        <form id="ajoutForm" class="space-y-4" action="post_add_section.php" method="POST">
+            <input type="hidden" name="cours_id" id="cours_id" value="<?= $c['cours_id'] ?>">
+            <input type="hidden" name="sections_position" id="sections_position" value="<?= $c['max_position'] ?>">
 
             <div>
                 <label class="block mb-1">Section Titre</label>
@@ -148,7 +145,7 @@ ob_start();
             </div>
 
             <div class="flex justify-end gap-3 pt-4">
-                <button type="button" id="closeModalSection"
+                <button type="button" id="closeaddmodal"
                     class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">
                     Annuler
                 </button>
@@ -166,7 +163,7 @@ ob_start();
     <div class="bg-gray-800 w-full max-w-lg p-6 rounded-xl border border-gray-700">
         <h2 class="text-2xl font-bold mb-4">Modifier les section</h2>
 
-        <form id="editForm" class="space-y-4" action="page_detail.php" method="POST">
+        <form id="editForm" class="space-y-4" action="post_update_section.php" method="POST">
             <input type="hidden" name="cours_id" id="cours_id">
             <input type="hidden" name="section_id" id="section_id">
             <input type="hidden" name="sections_position" id="sections_position_edit">
@@ -198,30 +195,22 @@ ob_start();
 </div>
 
 <script>
-    console.log(document.querySelector(".sections"));
-
-    document.querySelector(".sections").addEventListener("click", () => {
-        let id = document.getElementById("id_coursid").value;
-        let pos = document.getElementById("id_position").value;
-
-        document.getElementById("cours_id").value = id;
-        document.getElementById("sections_position").value = pos;
-        // document.getElementById("sections_title").value = sec.title;
-        // document.getElementById("sections_description").value = sec.description;
-        // document.getElementById("details_level").value = cours.level;
-        document.getElementById("sectionModalDetail").classList.remove("hidden");
-        document.getElementById("sectionModalDetail").classList.add("flex");
+    document.querySelector(".addsections").addEventListener("click", () => {
+        document.getElementById("addsectionModal").classList.remove("hidden");
+        document.getElementById("addsectionModal").classList.add("flex");
     });
+
+
+    document.getElementById("closeaddmodal").onclick = () => {
+        document.getElementById("addsectionModal").classList.add("hidden");
+        document.getElementById("addsectionModal").classList.remove("flex");
+    };
+
+
     document.querySelectorAll(".edit").forEach(editBtn => {
 
         editBtn.addEventListener("click", (e) => {
-            // e.preventDefault();
-            console.log("hjgefhzfg");
-
-
             let title = editBtn.dataset.title;
-            console.log(title);
-
             let description = editBtn.dataset.description;
             let position = editBtn.dataset.position;
             let cours = editBtn.dataset.cours;
@@ -240,12 +229,6 @@ ob_start();
         });
     });
 
-
-    document.getElementById("closeModalSection").onclick = () => {
-        document.getElementById("sectionModalDetail").classList.add("hidden");
-        document.getElementById("sectionModalDetail").classList.remove("flex");
-    };
-
     document.getElementById("closeModalSectionedit").onclick = () => {
         document.getElementById("sectionModalEdit").classList.add("hidden");
         document.getElementById("sectionModalEdit").classList.remove("flex");
@@ -257,7 +240,7 @@ $content = ob_get_clean();
 
 <?php
 
-$title = $GET["name"] ?? "name";
+$title = $c['title'] ?? "Details";
 include "layout.php";
 
 ?>

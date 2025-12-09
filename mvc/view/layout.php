@@ -19,7 +19,7 @@
         <hr class="border-gray-700 mb-6" />
         <nav class="flex flex-col space-y-2 text-gray-300">
 
-            <a href="courses_list.php"
+            <a href="index.php"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -38,7 +38,7 @@
                 Ajouter
             </a>
 
-            <a href="#"
+            <!-- <a href="#"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -46,7 +46,7 @@
                     <path d="M4 14h16v6H4z" />
                 </svg>
                 Sections
-            </a>
+            </a> -->
         </nav>
     </aside>
 
