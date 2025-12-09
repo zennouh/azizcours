@@ -1,6 +1,7 @@
 <?php
 
 require_once "modal/cours.php";
+require_once "modal/section.php";
 
 function index()
 {
