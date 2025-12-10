@@ -6,21 +6,21 @@ require_once "modal/section.php";
 function index()
 {
     // bring modal
-    $courses = get_courses_list();
+    $courses = Cours::all();
     // bring view
     require_once "view/courses.php";
 }
 
 function detail($id)
 {
-    $cours = get_cours_detail($id);
+    $cours = Cours::detail($id);
     $sect = get_section($id);
     require_once "view/details.php";
 }
 
 function delete($id)
 {
-    $result =  delete_cours($id);
+    $result =  Cours::delete($id, "");
     if ($result) {
         header("location: index.php");
     }
@@ -31,9 +31,9 @@ function addAction()
     require_once "view/add.php";
 }
 
-function add()
+function add($data)
 {
-    $res = add_cours();
+    $res = Cours::create($data);
     if ($res) {
         header("location: index.php");
     }
@@ -42,13 +42,13 @@ function add()
 
 function editAction($id)
 {
-    $c = get_cours_detail($id)[0];
+    $c = Cours::detail($id);
     require_once "view/edit.php";
 }
 
-function update()
+function update($id)
 {
-    $result =  update_cours();
+    $result =  Cours::update($id);
     if ($result) {
         header("location: index.php");
     }

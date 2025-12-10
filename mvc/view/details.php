@@ -8,7 +8,7 @@ ob_start();
         <h2 class="text-2xl font-bold mb-4">Détails du Cours</h2>
 
         <?php if (!empty($cours)) :
-            $c = $cours[0]; ?>
+            $c = $cours; ?>
 
             <form id="t" class="space-y-4" action="" method="POST">
 

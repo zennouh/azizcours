@@ -2,4 +2,6 @@
 
 require_once "controller/cours.php";
 
-update();
+$id = $_POST["cours_id"];
+
+update($id);
